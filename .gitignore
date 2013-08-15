@@ -45,4 +45,7 @@ Dist/
 packages/
 NuGet.exe
 
+# Xamarin Studio ignores
 .DS_Store
+*.userprefs
+
