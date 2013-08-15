@@ -44,3 +44,5 @@ Working/
 Dist/
 packages/
 NuGet.exe
+
+.DS_Store
