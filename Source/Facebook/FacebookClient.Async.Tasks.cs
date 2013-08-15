@@ -93,7 +93,7 @@ namespace Facebook
             {
                 TransferCompletionToTask(tcs, e, e.GetResultData, () =>
                 {
-                    if (ctr != null) ctr.Dispose();
+                    ctr.Dispose();
                     RemoveTaskAsyncHandlers(httpMethod, handler);
                     HttpWebRequestWrapperCreated -= httpWebRequestCreatedHandler;
 #if ASYNC_AWAIT
@@ -115,7 +115,9 @@ namespace Facebook
 
             try
             {
+#pragma warning disable 0618
                 ApiAsync(httpMethod, path, parameters, resultType, tcs);
+#pragma warning restore 0618
             }
             catch
             {

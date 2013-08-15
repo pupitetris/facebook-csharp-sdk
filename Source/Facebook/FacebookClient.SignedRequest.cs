@@ -95,7 +95,9 @@ namespace Facebook
                 throw new InvalidOperationException(InvalidSignedRequest);
 
             var base64UrlDecoded = Base64UrlDecode(encodedEnvelope);
+#pragma warning disable 0618
             var envelope = DeserializeJson(Encoding.UTF8.GetString(base64UrlDecoded, 0, base64UrlDecoded.Length), null);
+#pragma warning restore 0618
 
             byte[] key = Encoding.UTF8.GetBytes(appSecret);
             byte[] digest = ComputeHmacSha256Hash(Encoding.UTF8.GetBytes(encodedEnvelope), key);

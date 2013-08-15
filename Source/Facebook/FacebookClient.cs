@@ -256,8 +256,10 @@ namespace Facebook
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
         public virtual void SetJsonSerializers(Func<object, string> jsonSerializer, Func<string, Type, object> jsonDeserializer)
         {
+#pragma warning disable 0618
             SerializeJson = jsonSerializer;
             DeserializeJson = jsonDeserializer;
+#pragma warning restore 0618
         }
 
         /// <summary>
@@ -275,7 +277,9 @@ namespace Facebook
         /// <param name="httpWebRequestFactory"></param>
         public virtual void SetHttpWebRequestFactory(Func<Uri, HttpWebRequestWrapper> httpWebRequestFactory)
         {
+#pragma warning disable 0618
             HttpWebRequestFactory = httpWebRequestFactory;
+#pragma warning restore 0618
         }
 
         [SuppressMessage("Microsoft.Naming", "CA2204:LiteralsShouldBeSpelledCorrectly")]
@@ -549,10 +553,12 @@ namespace Facebook
                 queryString.Length--;
 
             uriBuilder.Query = queryString.ToString();
-
+			
+#pragma warning disable 0618
             var request = HttpWebRequestFactory == null
                              ? new HttpWebRequestWrapper((HttpWebRequest)WebRequest.Create(uriBuilder.Uri))
                              : HttpWebRequestFactory(uriBuilder.Uri);
+#pragma warning restore 0618
 
             switch (httpMethod)
             {
@@ -603,8 +609,10 @@ namespace Facebook
                 if (httpHelper == null)
                 {
                     // batch row
+#pragma warning disable 0618
                     result = DeserializeJson(responseString, resultType);
-                }
+#pragma warning restore 0618
+              }
                 else
                 {
                     var response = httpHelper.HttpWebResponse;
@@ -615,12 +623,16 @@ namespace Facebook
                     if (response.ContentType.Contains("text/javascript") ||
                         response.ContentType.Contains("application/json"))
                     {
+#pragma warning disable 0618
                         result = DeserializeJson(responseString, null);
+#pragma warning restore 0618
                         exception = GetException(httpHelper, result);
                         if (exception == null)
                         {
                             if (resultType != null)
+#pragma warning disable 0618
                                 result = DeserializeJson(responseString, resultType);
+#pragma warning restore 0618
                         }
                     }
                     else if (response.StatusCode == HttpStatusCode.OK && response.ContentType.Contains("text/plain"))
@@ -638,7 +650,9 @@ namespace Facebook
                             if (body.ContainsKey("expires"))
                                 body["expires"] = Convert.ToInt64(body["expires"], CultureInfo.InvariantCulture);
 
+#pragma warning disable 0618
                             result = DeserializeJson(body.ToString(), resultType);
+#pragma warning restore 0618
 
                             return result;
                         }
@@ -698,7 +712,9 @@ namespace Facebook
             }
 
             foreach (var key in keysThatAreNotString)
+#pragma warning disable 0618
                 parameters[key] = SerializeJson(parameters[key]);
+#pragma warning restore 0618
         }
 
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]

@@ -122,7 +122,9 @@ namespace Facebook
 
                     if (expectedSha1 == hashString.ToString())
                     {
-                        return DeserializeJson(requestBody, resultType);
+#pragma warning disable 0618
+						return DeserializeJson(requestBody, resultType);
+#pragma warning restore 0618
                     }
 
                     throw new ArgumentException(InvalidHttpXHubSignature, "requestHttpXHubSignature");

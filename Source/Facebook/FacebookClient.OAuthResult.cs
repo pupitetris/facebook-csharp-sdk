@@ -103,8 +103,10 @@ namespace Facebook
             // the result of this object is consistent with whatever
             // serializer is being used. If we hard coded to JsonObject
             // the result would be inconsistent with the rest of the SDK.
+#pragma warning disable 0618
             var json = SerializeJson(parameters);
             return DeserializeJson(json, null);
+#pragma warning restore 0618
         }
 
         /// <summary>
